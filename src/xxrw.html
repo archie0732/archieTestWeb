@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自我介紹</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      .profile-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+        position: relative;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        object-fit: cover;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      h1 {
+        margin: 10px 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      p {
+        color: #555;
+        font-size: 16px;
+        line-height: 1.5;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .fade-out {
+        opacity: 0;
+      }
+
+      .fade-in {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-container fade-in" id="profileContainer">
+      <img
+        src="../assert/Ugly Man.jpg"
+        alt="頭像"
+        class="profile-img fade-in"
+        id="profileImage"
+      />
+      <h1 id="profileName" class="fade-in">夏習然</h1>
+      <p id="profileDesc" class="fade-in">王又ㄏㄨㄢˊ</p>
+    </div>
+    <a
+      href="https://youtu.be/dQw4w9WgXcQ?si=PueHechn3rioYgBz"
+      style="margin-top: 20px"
+      >click me</a
+    >
+
+    <script>
+      const profiles = [
+        {
+          img: "../assert/Ugly Man.jpg",
+          name: "夏習然",
+          desc: "黑人",
+        },
+        {
+          img: "../assert/Ugly Person.jpeg",
+          name: "王又亘",
+          desc: "ㄨㄤˊㄧㄡˋㄏㄨㄢˊㄍㄥˋ",
+        },
+        {
+          img: "../assert/Naruto Funny.jpeg",
+          name: "暴龍訓練師",
+          desc: "我不知道要寫啥",
+        },
+      ];
+
+      let currentProfile = 0;
+      let scrollAmount = 0;
+      const scrollThreshold = 100;
+      let isTransitioning = false; //
+      function showNextProfile() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        fadeOut();
+
+        setTimeout(() => {
+          currentProfile = (currentProfile + 1) % profiles.length;
+          updateProfile();
+          fadeIn();
+          isTransitioning = false;
+        }, 500);
+      }
+      function updateProfile() {
+        const profile = profiles[currentProfile];
+        document.getElementById("profileImage").src = profile.img;
+        document.getElementById("profileName").textContent = profile.name;
+        document.getElementById("profileDesc").textContent = profile.desc;
+      }
+
+      window.addEventListener("wheel", function (event) {
+        if (isTransitioning) return;
+
+        scrollAmount += event.deltaY;
+        if (scrollAmount >= scrollThreshold) {
+          showNextProfile();
+          scrollAmount = 0;
+        }
+      });
+
+      function fadeOut() {
+        const elements = document.querySelectorAll(
+          "#profileImage, #profileName, #profileDesc"
+        );
+        elements.forEach((el) => {
+          el.classList.remove("fade-in");
+          el.classList.add("fade-out");
+        });
+      }
+
+      // 淡入效果
+      function fadeIn() {
+        const elements = document.querySelectorAll(
+          "#profileImage, #profileName, #profileDesc"
+        );
+        elements.forEach((el) => {
+          el.classList.remove("fade-out");
+          el.classList.add("fade-in");
+        });
+      }
+    </script>
+  </body>
+</html>
